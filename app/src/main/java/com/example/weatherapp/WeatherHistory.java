@@ -31,7 +31,7 @@ public class WeatherHistory extends Thread {
 
         Log.d("Temperature","it is getting the temperature for that city on a background thread");
         String result = ReadJSON.readHTTP("http://192.168.2.213:8080/WeatherServer_war/weather?startDate="+sDate+"&endDate="+eDate+"");
-        //    String result = ReadJSON.readHTTP("http://192.168.2.213:8080/WeatherServer_war/weather?startDate=2021-03-29 08:34:55&endDate=2021-03-29 23:34:55");
+
         ObjectMapper mapper = new ObjectMapper();
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         Weather[] w = mapper.readValue(result, Weather[].class);

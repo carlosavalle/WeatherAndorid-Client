@@ -2,6 +2,9 @@ package com.example.weatherapp;
 
 import android.util.Log;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -19,24 +22,23 @@ public class Forecast extends Thread{
 
     @Override
     public void run() {
-        getForecast();
+        try {
+            getForecast();
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void getForecast() {
+    private void getForecast() throws JsonProcessingException {
 
-        Gson gson = new Gson();
         Log.d("Forecast","it is getting the Forecast for that city on a background thread");
 
-        ArrayList<WeatherForecastSummary> wfs_list = new ArrayList();
-        String result = ReadJSON.readHTTP("https://api.openweathermap.org/data/2.5/forecast?q=" + this.CityName + "&units=imperial&apiKey=6ae2281a443225f45f30cc3a4a1d37b2");
-        WeatherForecast wf1 = (WeatherForecast)gson.fromJson(result, WeatherForecast.class);
-        Iterator var16 = wf1.getList().iterator();
+        String result = ReadJSON.readHTTP("http://192.168.2.213:8080/WeatherServer_war/forecast");
 
-        while(var16.hasNext()) {
-            WeatherForecastItem wf2 = (WeatherForecastItem)var16.next();
-            WeatherForecastSummary auxWFS = new WeatherForecastSummary(wf2.getTime(),wf2.getMaxTemp(),wf2.getWind().getSpeed(),wf2.getWeatherCondition());
-            wfs_list.add(auxWFS);
-        }
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        WeatherForecastSummary[] w = mapper.readValue(result, WeatherForecastSummary[].class);
+
 
 
 
@@ -44,7 +46,7 @@ public class Forecast extends Thread{
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-            activity.displayForecast(wfs_list);
+            activity.displayForecast(w);
             }
         });
 

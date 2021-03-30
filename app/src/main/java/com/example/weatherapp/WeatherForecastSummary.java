@@ -4,15 +4,22 @@ import java.util.Comparator;
 
 public class WeatherForecastSummary {
     private String dt_txt;
+    private String location;
     private float maxTemp;
     private float maxWind;
     private String weatherCondition;
+    private float rain;
 
-    public WeatherForecastSummary(String dt_txt, float maxTemp, float maxWind, String weatherCondition) {
+    public WeatherForecastSummary() {
+    }
+
+    public WeatherForecastSummary(String dt_txt, String location, float maxTemp, float maxWind, String weatherCondition, float rain) {
         this.dt_txt = dt_txt;
+        this.location = location;
         this.maxTemp = maxTemp;
         this.maxWind = maxWind;
         this.weatherCondition = weatherCondition;
+        this.rain = rain;
     }
 
     public String getDt_txt() {
@@ -46,28 +53,23 @@ public class WeatherForecastSummary {
     public void setMaxWind(float maxWind) {
         this.maxWind = maxWind;
     }
-// compared to sort the array to Max Temp
-    public static Comparator<WeatherForecastSummary> sortMaxTemp = new Comparator<WeatherForecastSummary>() {
-        @Override
-        public int compare(WeatherForecastSummary o1, WeatherForecastSummary o2) {
-            return Float.compare(o2.getMaxTemp(),o1.getMaxTemp());
-        }
-    };
-    // compared to sort the array to Max Wind
-    public static Comparator<WeatherForecastSummary> sortMaxWind = new Comparator<WeatherForecastSummary>() {
-        @Override
-        public int compare(WeatherForecastSummary o1, WeatherForecastSummary o2) {
-            return Float.compare(o2.getMaxWind(),o1.getMaxWind());
-        }
-    };
 
+    public String getLocation() {
+        return location;
+    }
+
+    public float getRain() {
+        return rain;
+    }
 
     @Override
     public String toString() {
-        return
-                "Date Time='" + dt_txt + '\'' +
+        return   "Date=" + dt_txt +
+                ", location=" + location  +
                 ", maxTemp=" + maxTemp +
                 ", maxWind=" + maxWind +
-                ", weatherCondition='" + weatherCondition + '\'' ;
+                ", weatherCondition=" + weatherCondition  +
+                ", rain=" + rain +
+                "";
     }
 }

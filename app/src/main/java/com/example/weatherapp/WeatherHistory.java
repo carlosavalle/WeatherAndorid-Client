@@ -28,8 +28,7 @@ public class WeatherHistory extends Thread {
     }
     public void getWeatherHistory() throws JsonProcessingException {
 
-
-        Log.d("Temperature","it is getting the temperature for that city on a background thread");
+        
         String result = ReadJSON.readHTTP("http://192.168.2.213:8080/WeatherServer_war/weather?startDate="+sDate+"&endDate="+eDate+"");
 
         ObjectMapper mapper = new ObjectMapper();
@@ -39,7 +38,12 @@ public class WeatherHistory extends Thread {
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                activity.displayHistory(w);
+                if (sDate != null && eDate != null) {
+                    activity.displayHistory(w);
+                }else{
+                    activity.displayToast(String.valueOf("Enter valid dates"));
+                }
+
             }
         });
 

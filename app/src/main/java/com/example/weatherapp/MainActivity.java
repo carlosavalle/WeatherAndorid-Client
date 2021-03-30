@@ -2,10 +2,14 @@ package com.example.weatherapp;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -22,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private int mYearIni2, mMonthIni2, mDayIni2, sYearIni2, sMonthIni2, sDayIni2;
     String from,to;
     EditText pickDateFrom,pickDateto;
+    Button btn;
     Calendar C = Calendar.getInstance();
     int DATE_ID = 0;
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -49,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
+
                 DATE_ID =1;
                 showDialog(DATE_ID);
             }
@@ -68,6 +74,9 @@ public class MainActivity extends AppCompatActivity {
                 showDialog(DATE_ID);
             }
         });
+        getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+        );
 
 
     }
@@ -134,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 public void displayToast(String text){
-    Toast.makeText(MainActivity.this,"The current temperature is "+text,Toast.LENGTH_LONG).show();
+    Toast.makeText(MainActivity.this,text,Toast.LENGTH_LONG).show();
 }
 
 public void displayForecast(WeatherForecastSummary[] list){
@@ -149,6 +158,5 @@ public void displayHistory(Weather[] list){
         listView.setAdapter(adapter);
 
     }
-
 
 }
